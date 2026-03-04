@@ -26,7 +26,7 @@ The simulator allows users to visualize trajectories and identify cycles.
 If you use this work or the simulator, please cite the original paper:
 Si vous utilisez ce travail, merci de citer l'article original :
 
-> **Bouhamidi, S.** (2026). *Discrete Dynamical Systems modulo $2^p+2^q$*. [arXiv:2601.06208](https://doi.org/10.48550/arXiv.2601.06208)
+> **Bouhamidi, A.** (2026). *Discrete Dynamical Systems modulo $2^p+2^q$*. [arXiv:2601.06208](https://doi.org/10.48550/arXiv.2601.06208)
 
 ---
 © 2026 - Licensed under CC BY-NC-ND 4.0
