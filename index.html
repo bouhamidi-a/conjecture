@@ -7,6 +7,9 @@
      <meta name="keywords" content="Mathematics, Conjecture,Collatz conjecture, Bouhamidi, Number Theory, Simulator">
     <title>Simulator of  Trajectories for Bouhamidi Conjecture</title>
 
+
+     <h1 id="main-title">Periodic structures and global stability in a two-parameter family of discrete dynamical systems</h1>
+
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -201,17 +204,18 @@
         }
         line { stroke: gray; stroke-width: 1.5px; }
 
- /* Empêche les formules de déborder sur mobile */
-     mjx-container {
-    max-width: 100% !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    -webkit-overflow-scrolling: touch;
-    padding: 10px 0;
+/* On retire la contrainte sur les boîtes parentes pour ne pas bloquer le défilement */
+.theory-box, .vulgarisation-box {
+    overflow-x: visible; 
 }
 
-.theory-box, .vulgarisation-box {
-    overflow-x: hidden; /* Empêche le défilement horizontal de toute la page */
+/* On cible uniquement les formules mathématiques centrées (display) */
+mjx-container[display="true"] {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 20px 0 !important; /* Augmente la marge interne verticale pour ne pas couper les grandes accolades */
+    margin: 0 auto;
+    -webkit-overflow-scrolling: touch;
 }
     </style>
 </head>
