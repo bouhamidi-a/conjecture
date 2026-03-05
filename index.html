@@ -200,6 +200,19 @@
             pointer-events: none;
         }
         line { stroke: gray; stroke-width: 1.5px; }
+
+ /* Empêche les formules de déborder sur mobile */
+     mjx-container {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 0;
+}
+
+.theory-box, .vulgarisation-box {
+    overflow-x: hidden; /* Empêche le défilement horizontal de toute la page */
+}
     </style>
 </head>
 <body>
