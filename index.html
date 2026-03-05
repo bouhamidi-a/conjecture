@@ -341,8 +341,8 @@ const translations = {
             ordre: (o) => `1) L'ordre du triplet <strong>(d, &alpha;, &beta;)</strong> est <strong>${o}</strong> : `,
             oneCycle: `Il n'y a qu'<strong>un seul cycle</strong>.<br>`,
             multiCycle: (o) => `Il y a <strong>${o} cycles</strong> distincts.<br>`,
-            enonceOne: (p,q, min) => `2) Pour tout entier de départ n &ge; 1, les itérés par l'application \\( T_{${p},${q}} \\) finissent par atteindre le nombre <strong>${min}</strong>.<br><br>Le cycle trivial est :<br><ul style="list-style-type: none; padding-left: 10px;">`,
-            enonceMulti: (p,q, mins) => `2) Pour tout entier de départ n &ge; 1, les itérés par l'application \\( T_{${p},${q}} \\) finissent par atteindre l'un des nombres : <strong>${mins.join(' ou ')}</strong>.<br><br>Les cycles sont :<br><ul style="list-style-type: none; padding-left: 10px;">`,
+            enonceOne: (p,q, min) => `2) Pour tout entier de départ n &ge; 1, les itérés par l'application \\( T_{${p},${q}} \\) finissent par atteindre le nombre <strong>${min}</strong> après un nombre fini d'itérations.<br><br>Le cycle trivial est :<br><ul style="list-style-type: none; padding-left: 10px;">`,
+            enonceMulti: (p,q, mins) => `2) Pour tout entier de départ n &ge; 1, les itérés par l'application \\( T_{${p},${q}} \\) finissent par atteindre l'un des nombres : <strong>${mins.join(' ou ')}</strong> après un nombre fini d'itérations.<br><br>Les cycles sont :<br><ul style="list-style-type: none; padding-left: 10px;">`,
             cycleTrivItem: (t, len) => `<li>• Le cycle trivial [<strong>${t.join(', ')}</strong>] de longueur <strong>${len}</strong>.</li>`,
             cycleSecItem: (c, len) => `<li>• Un cycle exceptionnel [<strong>${c.join(', ')}</strong>] de longueur <strong>${len}</strong>.</li>`,
             noteExcep: `<em>Note : Ce couple appartient à l'ensemble d'exception &Epsilon;.</em>`
@@ -404,8 +404,8 @@ The specific case where <strong>p = 0</strong> and <strong>q = 0</strong> corres
             ordre: (o) => `1) The order of the triplet <strong>(d, &alpha;, &beta;)</strong> is <strong>${o}</strong>: `,
             oneCycle: `There is only <strong>one cycle</strong>.<br>`,
             multiCycle: (o) => `There are <strong>${o} distinct cycles</strong>.<br>`,
-            enonceOne: (p,q, min) => `2) For any starting integer n &ge; 1, the iterates by the map \\( T_{${p},${q}} \\) eventually reach the number <strong>${min}</strong>.<br><br>The trivial cycle is:<br><ul style="list-style-type: none; padding-left: 10px;">`,
-            enonceMulti: (p,q, mins) => `2) For any starting integer n &ge; 1, the iterates by the map \\( T_{${p},${q}} \\) eventually reach one of the numbers: <strong>${mins.join(' or ')}</strong>.<br><br>The cycles are:<br><ul style="list-style-type: none; padding-left: 10px;">`,
+            enonceOne: (p,q, min) => `2) For any starting integer n &ge; 1, the iterates by the map \\( T_{${p},${q}} \\) eventually reach the number <strong>${min}</strong> after a finite number of iterations.<br><br>The trivial cycle is:<br><ul style="list-style-type: none; padding-left: 10px;">`,
+            enonceMulti: (p,q, mins) => `2) For any starting integer n &ge; 1, the iterates by the map \\( T_{${p},${q}} \\) eventually reach one of the numbers: <strong>${mins.join(' or ')}</strong> after a finite number of iterations.<br><br>The cycles are:<br><ul style="list-style-type: none; padding-left: 10px;">`,
             cycleTrivItem: (t, len) => `<li>• The trivial cycle [<strong>${t.join(', ')}</strong>] of length <strong>${len}</strong>.</li>`,
             cycleSecItem: (c, len) => `<li>• An exceptional cycle [<strong>${c.join(', ')}</strong>] of length <strong>${len}</strong>.</li>`,
             noteExcep: `<em>Note: This pair belongs to the exception set &Epsilon;.</em>`
