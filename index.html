@@ -253,9 +253,13 @@
     <div id="log-simulation" class="blue-log" style="display: none;"></div>
     
     <div class="controls" id="zoom-controls" style="display: none;">
-        <label><span id="label-zoom">🔍 Zoom du graphe :</span>
-            <input type="range" id="zoomSlider" min="10" max="300" value="100" oninput="changerZoom()">
-        </label>
+
+
+<label><span id="label-zoom">🔍 Zoom du graphe :</span>
+    <input type="range" id="zoomSlider" min="0" max="100" value="50" oninput="changerZoom()">
+</label>
+
+
         <button onclick="telechargerGraphe('png')" style="margin-left: 20px; font-size: 14px; padding: 5px 15px; background-color: #27ae60;">💾 PNG</button>
         <button onclick="telechargerGraphe('svg')" style="font-size: 14px; padding: 5px 15px; background-color: #8e44ad;">💾 SVG</button>
     </div>
@@ -273,6 +277,7 @@
     </div>
 </div>
 
+
 <script>
 const ensembleExceptionnel = {
     "1,0": [[14, 20, 28, 38, 52, 70, 94, 126, 42, 14]],
@@ -289,7 +294,6 @@ const ensembleExceptionnel = {
 };
 
 let currentLang = 'en';
-
 const translations = {
     fr: {
         warning: "⚠️ <strong>Avertissement :</strong> Cette page sert uniquement à illustrer la conjecture et n'est pas optimisée pour effectuer des calculs sur de très grands nombres.",
@@ -341,7 +345,7 @@ const translations = {
             enonceMulti: (p,q, mins) => `2) Pour tout entier de départ n &ge; 1, les itérés par l'application \\( T_{${p},${q}} \\) finissent par atteindre l'un des nombres : <strong>${mins.join(' ou ')}</strong>.<br><br>Les cycles sont :<br><ul style="list-style-type: none; padding-left: 10px;">`,
             cycleTrivItem: (t, len) => `<li>• Le cycle trivial [<strong>${t.join(', ')}</strong>] de longueur <strong>${len}</strong>.</li>`,
             cycleSecItem: (c, len) => `<li>• Un cycle exceptionnel [<strong>${c.join(', ')}</strong>] de longueur <strong>${len}</strong>.</li>`,
-            noteExcep: `</ul><em>Note : Ce couple appartient à l'ensemble d'exception &Epsilon;.</em>`
+            noteExcep: `<em>Note : Ce couple appartient à l'ensemble d'exception &Epsilon;.</em>`
         },
         sim: {
             error: "Veuillez d'abord choisir p et q tels que p >= q >= 0.",
@@ -404,136 +408,7 @@ The specific case where <strong>p = 0</strong> and <strong>q = 0</strong> corres
             enonceMulti: (p,q, mins) => `2) For any starting integer n &ge; 1, the iterates by the map \\( T_{${p},${q}} \\) eventually reach one of the numbers: <strong>${mins.join(' or ')}</strong>.<br><br>The cycles are:<br><ul style="list-style-type: none; padding-left: 10px;">`,
             cycleTrivItem: (t, len) => `<li>• The trivial cycle [<strong>${t.join(', ')}</strong>] of length <strong>${len}</strong>.</li>`,
             cycleSecItem: (c, len) => `<li>• An exceptional cycle [<strong>${c.join(', ')}</strong>] of length <strong>${len}</strong>.</li>`,
-            noteExcep: `</ul><em>Note: This pair belongs to the exception set &Epsilon;.</em>`
-        },
-        sim: {
-            error: "Please choose p and q such that p >= q >= 0 first.",
-            verdictTriv: (m) => `<strong>✅ CONJECTURE VERIFIED:</strong> The trajectory reached the trivial cycle (minimum <strong>${m}</strong>).`,
-            verdictSec: (m) => `<strong>✅ CONJECTURE VERIFIED:</strong> The trajectory reached an exceptional cycle (minimum <strong>${m}</strong>).`,
-            verdictAno: (m) => `<strong>🚨 ANOMALY DETECTED:</strong> Numbers have become too complex to guarantee the accuracy of the terminal cycle! Minimum: ${m}.`,
-            rapport: "<strong>Simulation Report:</strong>\n",
-            vol: (l) => `Stopping time (before repetition): <strong>${l}</strong> steps.\n`,
-            lenCycle: (l) => `Length of the terminal cycle: <strong>${l}</strong>.\n\n`,
-            traj: (t) => `Complete trajectory: [${t}]`
-        }
-    }
-};
-
-const translationsOLD = {
-    fr: {
-        warning: "⚠️ <strong>Avertissement :</strong> Cette page sert uniquement à illustrer la conjecture et n'est pas optimisée pour effectuer des calculs sur de très grands nombres.",
-        mainTitle: "Systèmes Dynamiques Discrets modulo 2<sup>p</sup>+2<sup>q</sup>",
-        subtitle: "Voir la Conjecture de Bouhamidi - ArXiv:2601.06208, (2026), <a href=\"https://doi.org/10.48550/arXiv.2601.06208\" target=\"_blank\">arXiv.2601.06208</a>",
-        theory: `
-            <p> Soient <strong>\\(p\\)</strong> et  <strong>\\(q\\)</strong> deux entiers avec 
-<strong>\\( p \\geq q \\geq 0 \\)</strong>. On considère l'application \\( T_{p,q} \\) définie pour tout entier \\( n\\) par :</p>
-            $$T_{p,q}(n)=\\begin{cases} 
-                \\frac{n}{d} & \\text{si } n \\equiv 0 \\pmod{d} \\\\ 
-                \\frac{(\\alpha n + \\beta [n]_{d})}{d} & \\text{si } n \\not\\equiv 0 \\pmod{d} 
-            \\end{cases}$$
-            <p>où \\( d = 2^p+2^{q} \\), \\( \\alpha = 2^p+2^{q+1} \\),  \\( \\beta = 2^p \\) et  \\( [n]_{d} \\) représente le reste de la division euclidienne de \\( n \\) par \\( d \\).</p>
-  
-            <p><em>Note historique :</em> Le cas spécifique où <strong>p = 0</strong> et <strong>q = 0</strong> correspond très exactement à l'application de la célèbre <strong>conjecture de Collatz</strong> (ou problème de Syracuse).</p>
-        `,
-        vulga: `
-            <h3>💡 La Règle du 10 (Conjecture grand public)</h3>
-            <p>En choisissant \\( p=3 \\) et \\( q=1 \\), on a \\( d=10 \\) ,  \\( \\alpha=12 \\)  \\( \\beta =8 \\) l'application est :</p>
-            $$T_{3,1}(n)=\\begin{cases} 
-                \\frac{n}{10} & \\text{si } n \\equiv 0 \\pmod{10} \\\\ 
-                \\frac{12n + 8[n]_{10}}{10} & \\text{si } n \\not\\equiv 0 \\pmod{10} 
-            \\end{cases}$$
-            <p>La théorie se transforme en un jeu arithmétique simple accessible à tous :</p>
-            <ul>
-                <li>Prenez n'importe quel nombre entier positif de départ.</li>
-                <li>S'il se termine par un zéro (multiple de 10), <strong>divisez-le par 10</strong>.</li>
-                <li>Sinon, <strong>multipliez-le par 12</strong>, ajoutez <strong>8 fois son dernier chiffre</strong>, puis divisez le résultat par 10.</li>
-                <li>Répétez le processus itérativement.</li>
-            </ul>
-            <p><strong>La Conjecture :</strong> Quel que soit le nombre de départ, vous finirez toujours par atteindre le nombre <strong>4</strong> après un nombre fini d'itérations.</p>
-        `,
-        ui: {
-            labelP: "Choix de p =",
-            labelQ: "Choix de q =",
-            btnGen: "Générer l'énoncé de la conjecture",
-            placeholderGen: "Entrez les valeurs de p et q ci-dessus, puis cliquez sur le bouton pour générer l'énoncé mathématique correspondant à votre cas.",
-            labelN: "Nombre de départ n =",
-            btnSim: "Simuler la trajectoire et tracer le graphe",
-            labelZoom: "🔍 Zoom du graphe :"
-        },
-        conj: {
-            error: "⚠️ Attention : Selon l'énoncé de la conjecture, vous devez respecter la condition <strong>p &ge; q &ge; 0</strong>.",
-            intro: (p,q,d,a,b) => `Dans le cas <strong>(p,q) = (${p}, ${q})</strong>, on a <strong>(d, &alpha;, &beta;) = (${d}, ${a}, ${b})</strong><br><br><strong>Énoncé :</strong> La conjecture énonce que :`,
-            ordre: (o) => `1) L'ordre du triplet <strong>(d, &alpha;, &beta;)</strong> est <strong>${o}</strong> : `,
-            oneCycle: `Il n'y a qu'<strong>un seul cycle</strong>.<br>`,
-            multiCycle: (o) => `Nous avons <strong>${o} cycles</strong> distincts.<br>`,
-            enonceOne: (p,q) => `2) Pour tout entier de départ n &ge; 1, les itérés par l'application \\( T_{${p},${q}} \\) finissent par atteindre l'unique cycle trivial :<br><ul>`,
-            enonceMulti: (p,q) => `2) Pour tout entier de départ n &ge; 1, les itérés par l'application \\( T_{${p},${q}} \\) finissent par atteindre l'un des cycles suivants :<br><ul>`,
-            cycleTrivItem: (t, len) => `<li>Le cycle trivial est [<strong>${t.join(', ')}</strong>] de longueur <strong>${len}</strong>.</li>`,
-            cycleSecItem: (c, len) => `<li>Un cycle exceptionnel : [<strong>${c.join(', ')}</strong>] de longueur <strong>${len}</strong>.</li>`,
-            noteExcep: `</ul><em>Note : Ce couple appartient à l'ensemble d'exception &Epsilon;.</em>`
-        },
-        sim: {
-            error: "Veuillez d'abord choisir p et q tels que p >= q >= 0.",
-            verdictTriv: (m) => `<strong>✅ CONJECTURE VÉRIFIÉE :</strong> La trajectoire a atteint le cycle trivial (minimum ${m}).`,
-            verdictSec: (m) => `<strong>✅ CONJECTURE VÉRIFIÉE :</strong> La trajectoire a atteint un cycle exceptionnel (minimum ${m}).`,
-            verdictAno: (m) => `<strong>🚨 ANOMALIE DÉTECTÉE :</strong> Les nombres sont devenus trop complexes pour garantir l'exactitude du cycle terminal! Minimum : ${m}.`,
-            rapport: "<strong>Rapport de simulation :</strong>\n",
-            vol: (l) => `Temps de vol (avant répétition) : <strong>${l}</strong> étapes.\n`,
-            lenCycle: (l) => `Longueur du cycle terminal : <strong>${l}</strong>.\n\n`,
-            traj: (t) => `Trajectoire complète : [${t}]`
-        }
-    },
-    en: {
-        warning: "⚠️ <strong>Warning:</strong> This page is only intended to illustrate the conjecture and is not optimized to perform calculations with very large numbers.",
-        mainTitle: "Discrete Dynamical Systems modulo 2<sup>p</sup>+2<sup>q</sup>",
-        subtitle: "See Bouhamidi's Conjecture - ArXiv:2601.06208, (2026), <a href=\"https://doi.org/10.48550/arXiv.2601.06208\" target=\"_blank\">arXiv.2601.06208</a>",
-        theory: `
-            <p>Let  <strong>\\(p\\)</strong> and  <strong>\\(q\\)</strong> be two integers with
-<strong>\\( p \\geq q \\geq 0 \\)</strong>. We consider the map \\( T_{p,q} \\)  defined for any integer \\( n \\) by:</p>
-            $$T_{p,q}(n)=\\begin{cases} 
-                \\frac{n}{d} & \\text{if } n \\equiv 0 \\pmod{d} \\\\ 
-                \\frac{(\\alpha n + \\beta [n]_{d})}{d} & \\text{if } n \\not\\equiv 0 \\pmod{d} 
-            \\end{cases}$$
-            <p>where \\( d = 2^p+2^{q} \\), \\( \\alpha = 2^p+2^{q+1} \\), \\( \\beta = 2^p \\) and \\( [n]_{d} \\) is the remainder in the Euclidean division of \\( n \\) by \\( d \\).</p>
-            <p><em>Historical note:</em> 
-The specific case where <strong>p = 0</strong> and <strong>q = 0</strong> corresponds exactly to the map of the famous <strong>Collatz conjecture</strong> (Syracuse problem).</p>
-        `,
-        vulga: `
-            <h3>💡 The Rule of 10 (Popularization)</h3>
-            <p>Choosing \\( p=3 \\) and \\( q=1 \\), we have \\( d=10 \\) ,  \\( \\alpha=12 \\)  \\( \\beta =8 \\). The map becomes:</p>
-            $$T_{3,1}(n)=\\begin{cases} 
-                \\frac{n}{10} & \\text{if } n \\equiv 0 \\pmod{10} \\\\ 
-                \\frac{12n + 8[n]_{10}}{10} & \\text{if } n \\not\\equiv 0 \\pmod{10} 
-            \\end{cases}$$
-            <p>The theory turns into an easy arithmetic game:</p>
-            <ul>
-                <li>Take any positive integer to start.</li>
-                <li>If it ends with a zero (multiple of 10), <strong>divide it by 10</strong>.</li>
-                <li>Otherwise, <strong>multiply it by 12</strong>, add <strong>8 times its last digit</strong>, then divide the result by 10.</li>
-                <li>Repeat the process iteratively.</li>
-            </ul>
-            <p><strong>The Conjecture:</strong> Regardless of the starting number, you will always reach the number <strong>4</strong> after a finite number of iterations.</p>
-        `,
-        ui: {
-            labelP: "Choice of p =",
-            labelQ: "Choice of q =",
-            btnGen: "Generate the conjecture statement",
-            placeholderGen: "Enter p and q values above, then click the button to generate the mathematical statement for your case.",
-            labelN: "Starting number n =",
-            btnSim: "Simulate trajectory and draw graph",
-            labelZoom: "🔍 Graph Zoom :"
-        },
-        conj: {
-            error: "⚠️ Warning: According to the conjecture statement, you must respect the condition <strong>p &ge; q &ge; 0</strong>.",
-            intro: (p,q,d,a,b) => `In the case <strong>(p,q) = (${p}, ${q})</strong>, we have <strong>(d, &alpha;, &beta;) = (${d}, ${a}, ${b})</strong><br><br><strong>Statement:</strong> The conjecture states that:`,
-            ordre: (o) => `1) The order of the triplet <strong>(d, &alpha;, &beta;)</strong> is <strong>${o}</strong>: `,
-            oneCycle: `There is only <strong>one  cycle</strong>.<br>`,
-            multiCycle: (o) => `There are <strong>${o} distinct cycles</strong>.<br>`,
-            enonceOne: (p,q) => `2) For any starting integer n &ge; 1, the iterates by the map \\( T_{${p},${q}} \\) eventually reach the unique trivial cycle:<br><ul>`,
-            enonceMulti: (p,q) => `2) For any starting integer n &ge; 1, the iterates by the map \\( T_{${p},${q}} \\) eventually reach one of the following cycles:<br><ul>`,
-            cycleTrivItem: (t, len) => `<li>The trivial cycle [<strong>${t.join(', ')}</strong>] of length <strong>${len}</strong>. </li>`,
-            cycleSecItem: (c, len) => `<li>An exceptional cycle [<strong>${c.join(', ')}</strong>] of length <strong>${len}</strong>.</li>`,
-            noteExcep: `</ul><em>Note: This pair belongs to the exception set &Epsilon;.</em>`
+            noteExcep: `<em>Note: This pair belongs to the exception set &Epsilon;.</em>`
         },
         sim: {
             error: "Please choose p and q such that p >= q >= 0 first.",
@@ -604,6 +479,7 @@ function normalize_cycle(cycle) {
     }
     return cycle.slice(min_idx).concat(cycle.slice(0, min_idx));
 }
+
 function genererConjecture() {
     let p_val = parseInt(document.getElementById('input_p').value);
     let q_val = parseInt(document.getElementById('input_q').value);
@@ -634,13 +510,12 @@ function genererConjecture() {
 
     if (ordre === 1) {
         html += t.oneCycle;
-        // On passe uniquement le minimum du cycle trivial
         html += t.enonceOne(p_val, q_val, min_trivial);
         html += t.cycleTrivItem(cycle_trivial_complet, lenTriv);
+        html += "</ul>"; 
     } else {
         html += t.multiCycle(ordre);
         
-        // On récupère tous les minimums des cycles pour la phrase d'annonce
         let mins = [min_trivial];
         exceptions.forEach(cyc => mins.push(cyc[0]));
         
@@ -649,55 +524,9 @@ function genererConjecture() {
         exceptions.forEach(cyc => {
             html += t.cycleSecItem(cyc, cyc.length - 1);
         });
+        html += "</ul>";
         html += t.noteExcep;
     }
-    html += "</ul>";
-
-    box.innerHTML = html;
-    if(window.MathJax) MathJax.typesetPromise();
-}
-function genererConjecture() {
-    let p_val = parseInt(document.getElementById('input_p').value);
-    let q_val = parseInt(document.getElementById('input_q').value);
-    let box = document.getElementById('conjecture-text');
-    let t = translations[currentLang].conj;
-
-    if (p_val < q_val || q_val < 0) {
-        box.innerHTML = t.error;
-        return;
-    }
-
-    let p = BigInt(p_val);
-    let q = BigInt(q_val);
-    let d = (2n ** p) + (2n ** q);
-    let alpha = (2n ** p) + (2n ** (q + 1n));
-    let beta = 2n ** p;
-    let min_trivial = 2n ** (p - q);
-
-    let cycle_trivial_complet = genererCycleComplet(min_trivial, d, alpha, beta);
-    let cle = p_val + "," + q_val;
-    let exceptions = ensembleExceptionnel[cle];
-    let ordre = exceptions ? exceptions.length + 1 : 1;
-
-    let html = t.intro(p_val, q_val, d, alpha, beta) + "<br>";
-    html += t.ordre(ordre);
-    
-    let lenTriv = cycle_trivial_complet.length - 1; 
-
-    if (ordre === 1) {
-        html += t.oneCycle;
-        html += t.enonceOne(p_val, q_val);
-        html += t.cycleTrivItem(cycle_trivial_complet, lenTriv);
-    } else {
-        html += t.multiCycle(ordre);
-        html += t.enonceMulti(p_val, q_val);
-        html += t.cycleTrivItem(cycle_trivial_complet, lenTriv);
-        exceptions.forEach(cyc => {
-            html += t.cycleSecItem(cyc, cyc.length - 1);
-        });
-        html += t.noteExcep;
-    }
-    html += "</ul>";
 
     box.innerHTML = html;
     if(window.MathJax) MathJax.typesetPromise();
@@ -765,8 +594,86 @@ function lancerSimulation() {
     dessinerGraphe(trajectory, transient, cycle);
 }
 
+function dessinerGraphe_RECT(trajectory, transient, cycle) {
+    let svgNodes = document.getElementById('nodes'), svgEdges = document.getElementById('edges');
+    svgNodes.innerHTML = svgEdges.innerHTML = ''; 
+    let pos = new Map(), entry_node = trajectory[trajectory.length - 1];
+    
+    let c_len = cycle.length;
+    let entry_idx = cycle.indexOf(entry_node);
+    if (entry_idx === -1) entry_idx = 0; 
 
-function dessinerGraphe(trajectory, transient, cycle) {
+    let perimeter = Math.max(4.8, c_len * 1.2); 
+    let W_rect = perimeter * 0.3; 
+    let H_rect = perimeter * 0.2; 
+
+    function getRectCoord(t) {
+        let d = t * perimeter;
+        if (d <= W_rect / 2) {
+            return { x: d, y: H_rect / 2 };
+        } else if (d <= W_rect / 2 + H_rect) {
+            return { x: W_rect / 2, y: H_rect / 2 - (d - W_rect / 2) };
+        } else if (d <= W_rect / 2 + H_rect + W_rect) {
+            return { x: W_rect / 2 - (d - (W_rect / 2 + H_rect)), y: -H_rect / 2 };
+        } else if (d <= W_rect / 2 + H_rect + W_rect + H_rect) {
+            return { x: -W_rect / 2, y: -H_rect / 2 + (d - (W_rect / 2 + H_rect + W_rect)) };
+        } else {
+            return { x: -W_rect / 2 + (d - (W_rect / 2 + H_rect + W_rect + H_rect)), y: H_rect / 2 };
+        }
+    }
+
+    for (let i = 0; i < c_len; i++) {
+        let t = ((i - entry_idx + c_len) % c_len) / c_len;
+        let coord = getRectCoord(t);
+        pos.set(cycle[i], { x: coord.x, y: coord.y, isCycle: true });
+    }
+
+    let X_spacing = 1.2, Y_spacing = 1.0, t_len = transient.length, W = Math.max(4, Math.floor(Math.sqrt(t_len)));
+    let base_Y = H_rect / 2; 
+    
+    for (let i = 0; i < t_len; i++) {
+        let phase = Math.floor(i / W) % 4, col = i % W, x_idx;
+        if (phase === 0) x_idx = col; else if (phase === 1) x_idx = (W - 1) - col; else if (phase === 2) x_idx = -col; else x_idx = -(W - 1) + col;
+        pos.set(transient[t_len - 1 - i], { x: x_idx * X_spacing, y: base_Y + 1.0 + Math.floor(i / W) * Y_spacing, isCycle: false });
+    }
+
+    let scale = 50, margin = 40, minX = 0, maxX = 0, minY = 0, maxY = 0;
+    pos.forEach(c => { minX = Math.min(minX, c.x); maxX = Math.max(maxX, c.x); minY = Math.min(minY, c.y); maxY = Math.max(maxY, c.y); });
+    let pW = (maxX - minX) * scale + margin * 2, pH = (maxY - minY) * scale + margin * 2;
+    let svg = document.getElementById('graphBox');
+    svg.setAttribute('viewBox', `0 0 ${pW} ${pH}`);
+
+    const toX = (x) => margin + (x - minX) * scale, toY = (y) => pH - margin - (y - minY) * scale;
+
+    for (let i = 0; i < trajectory.length - 1; i++) {
+        let p1 = pos.get(trajectory[i]), p2 = pos.get(trajectory[i+1]);
+        if(!p1 || !p2) continue;
+        let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", toX(p1.x)); line.setAttribute("y1", toY(p1.y));
+        line.setAttribute("x2", toX(p2.x)); line.setAttribute("y2", toY(p2.y));
+        line.setAttribute("marker-end", "url(#arrow)");
+        svgEdges.appendChild(line);
+    }
+
+    pos.forEach((coords, node) => {
+        let px = toX(coords.x), py = toY(coords.y);
+        let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", px); circle.setAttribute("cy", py); circle.setAttribute("r", 15);
+        circle.setAttribute("class", coords.isCycle ? "node-cycle" : "node-transient");
+        svgNodes.appendChild(circle);
+        let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        let ns = node.toString();
+        text.setAttribute("x", px); text.setAttribute("y", py + 4); text.setAttribute("text-anchor", "middle");
+        text.textContent = ns.length < 5 ? ns : ns.substring(0,2) + ".." + ns.substring(ns.length-1);
+        svgNodes.appendChild(text);
+    });
+    
+    document.getElementById('zoomSlider').value = 50;
+    changerZoom();
+}
+
+
+function dessinerGraphe_OLD(trajectory, transient, cycle) {
     let svgNodes = document.getElementById('nodes'), svgEdges = document.getElementById('edges');
     svgNodes.innerHTML = svgEdges.innerHTML = ''; 
     let pos = new Map(), entry_node = trajectory[trajectory.length - 1];
@@ -822,157 +729,8 @@ function dessinerGraphe(trajectory, transient, cycle) {
     changerZoom();
 }
 
-function dessinerGraphe_CYC_RECT(trajectory, transient, cycle) {
-    let svgNodes = document.getElementById('nodes'), svgEdges = document.getElementById('edges');
-    svgNodes.innerHTML = svgEdges.innerHTML = ''; 
-    let pos = new Map(), entry_node = trajectory[trajectory.length - 1];
-    
-    let c_len = cycle.length;
-    let entry_idx = cycle.indexOf(entry_node);
-    if (entry_idx === -1) entry_idx = 0; // Sécurité
 
-    // --- NOUVELLE GÉOMÉTRIE : LE RECTANGLE ---
-    // On veut un espacement constant d'environ 1.2 entre chaque nœud du cycle
-    let perimeter = Math.max(4.8, c_len * 1.2); 
-    
-    // On fixe les proportions du rectangle (ex: largeur = 3/10 du périmètre, hauteur = 2/10)
-    let W_rect = perimeter * 0.3; 
-    let H_rect = perimeter * 0.2; 
-
-    // Fonction pour mapper un pourcentage du parcours (t) sur les bords du rectangle
-    function getRectCoord(t) {
-        let d = t * perimeter;
-        if (d <= W_rect / 2) {
-            // Bord supérieur, moitié droite (vers la droite)
-            return { x: d, y: H_rect / 2 };
-        } else if (d <= W_rect / 2 + H_rect) {
-            // Bord droit (vers le bas)
-            return { x: W_rect / 2, y: H_rect / 2 - (d - W_rect / 2) };
-        } else if (d <= W_rect / 2 + H_rect + W_rect) {
-            // Bord inférieur (vers la gauche)
-            return { x: W_rect / 2 - (d - (W_rect / 2 + H_rect)), y: -H_rect / 2 };
-        } else if (d <= W_rect / 2 + H_rect + W_rect + H_rect) {
-            // Bord gauche (vers le haut)
-            return { x: -W_rect / 2, y: -H_rect / 2 + (d - (W_rect / 2 + H_rect + W_rect)) };
-        } else {
-            // Bord supérieur, moitié gauche (retour vers le centre)
-            return { x: -W_rect / 2 + (d - (W_rect / 2 + H_rect + W_rect + H_rect)), y: H_rect / 2 };
-        }
-    }
-
-    // On place les nœuds du cycle sur le rectangle
-    for (let i = 0; i < c_len; i++) {
-        // Le décalage assure que "entry_node" tombe pile à t=0 (centre du bord haut)
-        let t = ((i - entry_idx + c_len) % c_len) / c_len;
-        let coord = getRectCoord(t);
-        pos.set(cycle[i], { x: coord.x, y: coord.y, isCycle: true });
-    }
-
-    // --- Phase transitoire (se connecte au-dessus du rectangle) ---
-    let X_spacing = 1.2, Y_spacing = 1.0, t_len = transient.length, W = Math.max(4, Math.floor(Math.sqrt(t_len)));
-    let base_Y = H_rect / 2; // Le point le plus haut du rectangle
-    
-    for (let i = 0; i < t_len; i++) {
-        let phase = Math.floor(i / W) % 4, col = i % W, x_idx;
-        if (phase === 0) x_idx = col; else if (phase === 1) x_idx = (W - 1) - col; else if (phase === 2) x_idx = -col; else x_idx = -(W - 1) + col;
-        // On place la queue au-dessus de base_Y
-        pos.set(transient[t_len - 1 - i], { x: x_idx * X_spacing, y: base_Y + 1.0 + Math.floor(i / W) * Y_spacing, isCycle: false });
-    }
-
-    // --- Rendu final SVG ---
-    let scale = 50, margin = 40, minX = 0, maxX = 0, minY = 0, maxY = 0;
-    pos.forEach(c => { minX = Math.min(minX, c.x); maxX = Math.max(maxX, c.x); minY = Math.min(minY, c.y); maxY = Math.max(maxY, c.y); });
-    let pW = (maxX - minX) * scale + margin * 2, pH = (maxY - minY) * scale + margin * 2;
-    let svg = document.getElementById('graphBox');
-    svg.setAttribute('viewBox', `0 0 ${pW} ${pH}`);
-
-    const toX = (x) => margin + (x - minX) * scale, toY = (y) => pH - margin - (y - minY) * scale;
-
-    for (let i = 0; i < trajectory.length - 1; i++) {
-        let p1 = pos.get(trajectory[i]), p2 = pos.get(trajectory[i+1]);
-        if(!p1 || !p2) continue;
-        let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", toX(p1.x)); line.setAttribute("y1", toY(p1.y));
-        line.setAttribute("x2", toX(p2.x)); line.setAttribute("y2", toY(p2.y));
-        line.setAttribute("marker-end", "url(#arrow)");
-        svgEdges.appendChild(line);
-    }
-
-    pos.forEach((coords, node) => {
-        let px = toX(coords.x), py = toY(coords.y);
-        let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute("cx", px); circle.setAttribute("cy", py); circle.setAttribute("r", 15);
-        circle.setAttribute("class", coords.isCycle ? "node-cycle" : "node-transient");
-        svgNodes.appendChild(circle);
-        let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        let ns = node.toString();
-        text.setAttribute("x", px); text.setAttribute("y", py + 4); text.setAttribute("text-anchor", "middle");
-        text.textContent = ns.length < 5 ? ns : ns.substring(0,2) + ".." + ns.substring(ns.length-1);
-        svgNodes.appendChild(text);
-    });
-    
-    document.getElementById('zoomSlider').value = 100;
-    changerZoom();
-}
-
-
-function dessinerGraphe_OLD(trajectory, transient, cycle) {
-    let svgNodes = document.getElementById('nodes'), svgEdges = document.getElementById('edges');
-    svgNodes.innerHTML = svgEdges.innerHTML = ''; 
-    let pos = new Map(), entry_node = trajectory[trajectory.length - 1];
-    
-    // --- MODIFICATION ICI : Le multiplicateur passe de 0.3 à 0.10 pour réduire fortement le rayon ---
-    let R = Math.max(2.0, cycle.length * 0.08), c_len = cycle.length, entry_idx = cycle.indexOf(entry_node);
-
-    for (let i = 0; i < c_len; i++) {
-        let angle = Math.PI / 2 - (i - entry_idx) * (2 * Math.PI / c_len);
-        pos.set(cycle[i], { x: R * Math.cos(angle), y: R * Math.sin(angle), isCycle: true });
-    }
-
-    let X_spacing = 1.2, Y_spacing = 1.0, t_len = transient.length, W = Math.max(4, Math.floor(Math.sqrt(t_len)));
-    for (let i = 0; i < t_len; i++) {
-        let phase = Math.floor(i / W) % 4, col = i % W, x_idx;
-        if (phase === 0) x_idx = col; else if (phase === 1) x_idx = (W - 1) - col; else if (phase === 2) x_idx = -col; else x_idx = -(W - 1) + col;
-        pos.set(transient[t_len - 1 - i], { x: x_idx * X_spacing, y: R + 1.0 + Math.floor(i / W) * Y_spacing, isCycle: false });
-    }
-
-    let scale = 50, margin = 40, minX = 0, maxX = 0, minY = 0, maxY = 0;
-    pos.forEach(c => { minX = Math.min(minX, c.x); maxX = Math.max(maxX, c.x); minY = Math.min(minY, c.y); maxY = Math.max(maxY, c.y); });
-    let pW = (maxX - minX) * scale + margin * 2, pH = (maxY - minY) * scale + margin * 2;
-    let svg = document.getElementById('graphBox');
-    svg.setAttribute('viewBox', `0 0 ${pW} ${pH}`);
-
-    const toX = (x) => margin + (x - minX) * scale, toY = (y) => pH - margin - (y - minY) * scale;
-
-    for (let i = 0; i < trajectory.length - 1; i++) {
-        let p1 = pos.get(trajectory[i]), p2 = pos.get(trajectory[i+1]);
-        if(!p1 || !p2) continue;
-        let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", toX(p1.x)); line.setAttribute("y1", toY(p1.y));
-        line.setAttribute("x2", toX(p2.x)); line.setAttribute("y2", toY(p2.y));
-        line.setAttribute("marker-end", "url(#arrow)");
-        svgEdges.appendChild(line);
-    }
-
-    pos.forEach((coords, node) => {
-        let px = toX(coords.x), py = toY(coords.y);
-        let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute("cx", px); circle.setAttribute("cy", py); circle.setAttribute("r", 15);
-        circle.setAttribute("class", coords.isCycle ? "node-cycle" : "node-transient");
-        svgNodes.appendChild(circle);
-        let text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        let ns = node.toString();
-        text.setAttribute("x", px); text.setAttribute("y", py + 4); text.setAttribute("text-anchor", "middle");
-        text.textContent = ns.length < 5 ? ns : ns.substring(0,2) + ".." + ns.substring(ns.length-1);
-        svgNodes.appendChild(text);
-    });
-    
-    // On réinitialise le zoom à 100% quand on dessine un nouveau graphe
-    document.getElementById('zoomSlider').value = 100;
-    changerZoom();
-}
-
-function dessinerGraphe_OLD01(trajectory, transient, cycle) {
+function dessinerGraphe(trajectory, transient, cycle) {
     let svgNodes = document.getElementById('nodes'), svgEdges = document.getElementById('edges');
     svgNodes.innerHTML = svgEdges.innerHTML = ''; 
     let pos = new Map(), entry_node = trajectory[trajectory.length - 1];
@@ -1020,25 +778,19 @@ function dessinerGraphe_OLD01(trajectory, transient, cycle) {
         text.textContent = ns.length < 5 ? ns : ns.substring(0,2) + ".." + ns.substring(ns.length-1);
         svgNodes.appendChild(text);
     });
-    
-    // On réinitialise le zoom à 100% quand on dessine un nouveau graphe
-    document.getElementById('zoomSlider').value = 100;
-    changerZoom();
 }
 
 function changerZoom() {
-    let z = document.getElementById('zoomSlider').value;
+    let z = Number(document.getElementById('zoomSlider').value);
     let svg = document.getElementById('graphBox');
-    let container = svg.parentElement; 
-
-    container.style.overflow = "auto";
-    let scale = 0.5 + (z / 40); 
     
-    svg.style.transform = `scale(${scale})`;
-    svg.style.transformOrigin = "top left"; 
-    
-    svg.style.marginBottom = (svg.getBoundingClientRect().height * (scale - 1)) + "px";
+    svg.style.width = (2 * z) + '%';
+    svg.style.maxWidth = 'none'; // <-- La ligne magique qui débloque le zoom !
+    svg.style.maxHeight = (z > 50) ? 'none' : '100%';
 }
+
+
+
 
 function telechargerGraphe(format) {
     let svg = document.getElementById('graphBox');
@@ -1050,7 +802,6 @@ function telechargerGraphe(format) {
     cloneSvg.setAttribute("width", width);
     cloneSvg.setAttribute("height", height);
 
-    // On retire la transformation de zoom sur l'image exportée pour qu'elle soit nette
     cloneSvg.style.transform = "none";
 
     let serializer = new XMLSerializer();
@@ -1109,7 +860,14 @@ function telechargerGraphe(format) {
     }
 }
 
-window.onload = () => { setLang('en'); genererConjecture(); };
+
+
+// Initialisation au démarrage (Celle que tu as choisie !)
+window.onload = () => { 
+    setLang('en'); 
+    genererConjecture(); 
+    changerZoom(); // On initialise le zoom à 50% ici ! 
+};
 </script>
 <div style="text-align: center; margin-top: 20px; font-size: 0.9em;">
     <a href="README.md" target="_blank">Documentation (README)</a> | 
