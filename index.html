@@ -129,7 +129,7 @@ btnGotoSim: "🚀 Lancer le Simulateur et tester la Conjecture",
 
 
 
- <p>Un cycle commençant par un <strong>élément minimal \\(\\omega_{p,q}\\)</srtong> sera noté \\(\\Omega(\\omega_{p,q})\\).</p>
+ <p>Un cycle commençant par un <strong>élément minimal \\(\\omega_{p,q}\\)</strong> sera noté \\(\\Omega(\\omega_{p,q})\\).</p>
 
 
 
@@ -142,7 +142,7 @@ btnGotoSim: "🚀 Lancer le Simulateur et tester la Conjecture",
                 </ol>
                 <p>De plus, pour tous les entiers \\(p\\) et \\(q\\) tels que \\(p\\geq q\\geq 0\\) et pour tout entier \\(n\\geq 1\\), la trajectoire issue de \\(n\\) est bornée et finit par atteindre un élément de l'ensemble \\(A_{p,q}\\).</p>
 <p>Les ensembles   \\(\\mathbb{E}\\), \\(A_{p,q}\\) et les  éléments \\(\\omega_{p,q}\\) sont donnés en dessous. </p>
-            </div>          
+  </div>          
 
 
 
@@ -197,10 +197,52 @@ $$ A_{p,q} = \\begin{cases}
             \\end{cases} $$
 
 
+<div class="main-conjecture">
+                <h4>🏆 Conjecture Particulière avec \\(p=q\\geq 0\\)</h4>
+ <p>Choisissons \\( p=q \\), nous obtenons   \\( d= \\textcolor{red}{2}\\times 2^p \\) ,  \\( \\alpha= \\textcolor{red}{3}\\times 2^p \\) et  \\( \\beta =\\textcolor{red}{1}\\times 2^p \\). L'application devient :</p>
+            $$T_{p,p}(n)=\\begin{cases} 
+                \\frac{n}{2^{p+1}} & \\text{si } n \\equiv 0 \\pmod{2^{p+1}} \\\\ 
+                \\frac{\\textcolor{red}{3}n + \\textcolor{red}{1}\\times[n]_{d}}{\\textcolor{red}{2}} & \\text{si } n \\not\\equiv 0 \\pmod{2^{p+1}} 
+            \\end{cases}$$
+
+<p>Pour tout entier \\(p\\geq 0\\), on a:</p>
+                <ol>
+                    <li><strong>Si \\(p\\not= 2 \\):</strong> L'application  \\(T_{p,p}\\) a seulement <strong>un</strong> cycle, le cycle  trivial \\(\\Omega(2^{p-p})\\) commençant par \\(2^{p-p}=1\\) et de longeur \\(2^{p-p}+p+1=p+2\\).</li>
+                    <li><strong>Si \\(p=2\\):</strong> L'application \\(T_{2,2}\\) a exactement  <strong>deux</strong> cycles, le cycle trivial  \\(\\Omega(1)\\) et le cycle secondaire  \\(\\Omega(67)\\) de longeur \\(6\\). </li>
+                </ol>
+                <p>De plus, pour tout entier \\(p\\geq 0\\) et pour tout entier \\(n\\geq 1\\), la trajectoire commençant par \\(n\\) est bornée et finit par atteindre  <strong> 1</strong> si \\(p\\not=2\\) et par atteindre  <strong> 1 ou 67</strong> si \\(p=2\\). </p>
+<p>La conjecture de Collatz classique est obtenue pour \\(p=0\\). </p>
+
+            </div>
+
+
+
+<div class="main-conjecture">
+                <h4>🏆 Conjecture Particulière avec \\(p\\geq q= 0\\)</h4>
+ <p>Nous choisissons \\(p\\geq q= 0\\), nous obtenons  \\( d= 2^p+1 \\) ,  \\( \\alpha=2^p+2 \\) et  \\( \\beta =2^p \\). L'application devient:</p>
+            $$T_{p,0}(n)=\\begin{cases} 
+                \\frac{n}{2^p+1} & \\text{si } n \\equiv 0 \\pmod{2^p+1} \\\\ 
+                \\frac{(2^p+2)n + 2^p[n]_{d}}{2^p+1} & \\text{si } n \\not\\equiv 0 \\pmod{2^p+1} 
+            \\end{cases}$$
+
+
+                <p>Pour tout entier \\(p\\geq 0\\), alors:</p>
+                <ol>
+                    <li><strong>If \\(p\\notin \\{1,3,4,7\\}  \\):</strong> The mapping \\(T_{p,0}\\) a seulement <strong>un</strong> cycle, le cycle trivial\\(\\Omega(2^{p})\\) commençant par \\(2^{p}\\) et de longueur  \\(2^{p}+1\\).</li>
+                    <li><strong>Si \\(p\\in \\{1,3,4,7\\}  \\):</strong> L'application \\(T_{p,0}\\) a exactement <strong>deux</strong> cycles, le cycle  trivial  \\(\\Omega(2^p)\\) et le cycle secondaraire \\(\\Omega(\\omega_{p,0})\\) de longueur donnée dans la Table précédente. </li>
+                </ol>
+                <p>De plus, pour tout entier \\(p\\geq 0\\) et pour tout entier \\(n\\geq 1\\), la trajectoire commençant par \\(n\\) est bornée et finit par atteindre <strong> \\(2^p\\)</strong> si \\(p\\notin \\{1,3,4,7\\}  \\) et elle finit d'atteindre <strong> \\(2^p\\) ou \\(\\omega_{p,0}\\)</strong> si \\(p\\in \\{1,3,4,7\\}  \\). Le nombre \\(\\omega_{p,0}\\) est donné dans la Table précédente.  </p>
+<p>La conjecture de Collatz classique est obtenue pour \\(p=0\\). </p>
+<p>Si \\(p=2^k\\) est une puissance de \\(2\\) alors \\(d=2^{2^k}+1\\) est un  <strong>nombre de Fermat</number>. </p>
+
+            </div>
+
+
+
         `,
         vulga: `
             <h3>💡 La Règle du 10 (Conjecture grand public)</h3>
-            <p>En choisissant \\( p=3 \\) et \\( q=1 \\), on a \\( d=10 \\) ,  \\( \\alpha=12 \\)  \\( \\beta =8 \\) l'application est :</p>
+            <p>En choisissant \\( p=3 \\) et \\( q=1 \\), on a \\( d=10 \\) ,  \\( \\alpha=12 \\) et  \\( \\beta =8 \\) l'application est :</p>
             $$T_{3,1}(n)=\\begin{cases} 
                 \\frac{n}{10} & \\text{si } n \\equiv 0 \\pmod{10} \\\\ 
                 \\frac{12n + 8[n]_{10}}{10} & \\text{si } n \\not\\equiv 0 \\pmod{10} 
@@ -213,10 +255,14 @@ $$ A_{p,q} = \\begin{cases}
                 <li>Répétez le processus itérativement.</li>
             </ul>
             <p><strong>La Conjecture :</strong> Quel que soit le nombre de départ, vous finirez toujours par atteindre le nombre <strong>4</strong> après un nombre fini d'itérations.</p>
+
         `,
         btnGotoSim: "🚀 Lancer le Simulateur et tester la Conjecture"
     },
-    en: {
+
+
+
+en: {
         mainTitle: "Discrete Dynamical Systems modulo 2<sup>p</sup>+2<sup>q</sup>",
         subtitle: "See Bouhamidi's Conjecture - ArXiv:2601.06208, (2026), <a href=\"https://doi.org/10.48550/arXiv.2601.06208\" target=\"_blank\">arXiv.2601.06208</a>",
         theory: `
@@ -289,9 +335,7 @@ $$ A_{p,q} = \\begin{cases}
 
 
 
-
-
-            <p><strong>The set of attractors:</strong></p>
+<p><strong>The set of attractors:</strong></p>
             $$ A_{p,q} = \\begin{cases} 
             \\{2^{p-q}\\} & \\text{if } (p,q)\\notin \\mathbb{E} \\\\ 
             \\{2^{p-q},\\omega_{p,q}\\} & \\text{if } (p,q)\\in \\mathbb{E} \\text{ and } (p,q)\\not=(5,2) \\\\ 
@@ -299,10 +343,54 @@ $$ A_{p,q} = \\begin{cases}
             \\end{cases} $$
 
 
+<div class="main-conjecture">
+                <h4>🏆 Particular  Conjecture with \\(p=q\\geq 0\\)</h4>
+ <p>Choosing \\( p=q \\), we get  \\( d= \\textcolor{red}{2}\\times 2^p \\) ,  \\( \\alpha= \\textcolor{red}{3}\\times 2^p \\) and  \\( \\beta =\\textcolor{red}{1}\\times 2^p \\). The map becomes:</p>
+            $$T_{p,p}(n)=\\begin{cases} 
+                \\frac{n}{2^{p+1}} & \\text{if } n \\equiv 0 \\pmod{2^{p+1}} \\\\ 
+                \\frac{\\textcolor{red}{3}n + \\textcolor{red}{1}\\times[n]_{d}}{\\textcolor{red}{2}} & \\text{if } n \\not\\equiv 0 \\pmod{2^{p+1}} 
+            \\end{cases}$$
+
+
+                <p>For all integer \\(p\\geq 0\\), then:</p>
+                <ol>
+                    <li><strong>If \\(p\\not= 2 \\):</strong> The mapping \\(T_{p,p}\\) has only <strong>one</strong> cycle, the trivial one \\(\\Omega(2^{p-p})\\) starting with \\(2^{p-p}=1\\) and of length \\(2^{p-p}+p+1=p+2\\).</li>
+                    <li><strong>If \\(p=2\\):</strong> The mapping \\(T_{2,2}\\) has exactly <strong>two</strong> cycles, the trivial one \\(\\Omega(1)\\) and the secondary one \\(\\Omega(67)\\) of length \\(6\\). </li>
+                </ol>
+                <p>Furthermore, for all integer \\(p\\geq 0\\) and for any integer \\(n\\geq 1\\), the trajectory starting with \\(n\\) is bounded and eventually reaches <strong> 1</strong> if \\(p\\not=2\\) and it reaches <strong> 1 or 67</strong> if \\(p=2\\). </p>
+<p>The classical Collatz conjecture is obtained for \\(p=0\\). </p>
+
+            </div>
+
+
+
+<div class="main-conjecture">
+                <h4>🏆 Particular  Conjecture with with \\(p\\geq q= 0\\)</h4>
+ <p>Choosing  \\(p\\geq q= 0\\), we get  \\( d= 2^p+1 \\) ,  \\( \\alpha=2^p+2 \\) and  \\( \\beta =2^p \\). The map becomes:</p>
+            $$T_{p,0}(n)=\\begin{cases} 
+                \\frac{n}{2^p+1} & \\text{if } n \\equiv 0 \\pmod{2^p+1} \\\\ 
+                \\frac{(2^p+2)n + 2^p[n]_{d}}{2^p+1} & \\text{if } n \\not\\equiv 0 \\pmod{2^p+1} 
+            \\end{cases}$$
+
+
+                <p>For all integer \\(p\\geq 0\\), then:</p>
+                <ol>
+                    <li><strong>If \\(p\\notin \\{1,3,4,7\\}  \\):</strong> The mapping \\(T_{p,0}\\) has only <strong>one</strong> cycle, the trivial one \\(\\Omega(2^{p})\\) starting with \\(2^{p}\\) and of length \\(2^{p}+1\\).</li>
+                    <li><strong>If \\(p\\in \\{1,3,4,7\\}  \\):</strong> The mapping \\(T_{p,0}\\) has exactly <strong>two</strong> cycles, the trivial one \\(\\Omega(2^p)\\) and the secondary one \\(\\Omega(\\omega_{p,0})\\) of length given in the previous Table. </li>
+                </ol>
+                <p>Furthermore, for all integer \\(p\\geq 0\\) and for any integer \\(n\\geq 1\\), the trajectory starting with \\(n\\) is bounded and eventually reaches <strong> \\(2^p\\)</strong> if \\(p\\notin \\{1,3,4,7\\}  \\) and it reaches <strong> \\(2^p\\) or \\(\\omega_{p,0}\\)</strong> if \\(p\\in \\{1,3,4,7\\}  \\). The number \\(\\omega_{p,0}\\) is given in the prvious Table.  </p>
+<p>The classical Collatz conjecture is obtained for \\(p=0\\). </p>
+<p>If \\(p=2^k\\) is a power of \\(2\\) then \\(d=2^{2^k}+1\\) is a <strong>Fermat number</number>. </p>
+
+            </div>
+
+
+
+
         `,
         vulga: `
             <h3>💡 The Rule of 10 (Popularization)</h3>
-            <p>Choosing <strong>p=3</strong>  and <strong>q=1</strong>, we get  \\( d=10 \\) ,  \\( \\alpha=12 \\)  \\( \\beta =8 \\). The map becomes:</p>
+ <p>Choosing <strong>p=3</strong>  and <strong>q=1</strong>, we get  \\( d=10 \\) ,  \\( \\alpha=12 \\) and  \\( \\beta =8 \\). The map becomes:</p>
             $$T_{3,1}(n)=\\begin{cases} 
                 \\frac{n}{10} & \\text{if } n \\equiv 0 \\pmod{10} \\\\ 
                 \\frac{12n + 8[n]_{10}}{10} & \\text{if } n \\not\\equiv 0 \\pmod{10} 
@@ -315,10 +403,19 @@ $$ A_{p,q} = \\begin{cases}
                 <li>Repeat the process iteratively.</li>
             </ul>
             <p><strong>The Conjecture:</strong> Regardless of the starting number, you will always reach the number <strong>4</strong> after a finite number of iterations.</p>
+
         `,
         btnGotoSim: "🚀 Open the Simulator and Test the Conjecture"
+            
+
+
     }
 };
+
+
+
+
+
 
 function setLang(lang) {
     currentLang = lang;
